@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.roborazzi)
-    // alias(libs.plugins.secrets)  ← সরানো হয়েছে
 }
 
 android {
@@ -16,16 +15,14 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         create("release") {
-            val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
-            storeFile = file(keystorePath)
+            storeFile = file("${rootDir}/my-upload-key.jks")
             storePassword = System.getenv("STORE_PASSWORD")
-            keyAlias = "upload"
+            keyAlias = System.getenv("KEY_ALIAS") ?: "upload"
             keyPassword = System.getenv("KEY_PASSWORD")
         }
         create("debugConfig") {
@@ -38,7 +35,6 @@ android {
 
     buildTypes {
         release {
-            isCrunchPngs = false
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
@@ -55,13 +51,10 @@ android {
 
     buildFeatures {
         compose = true
-        buildConfig = true
     }
-
-    testOptions { unitTests { isIncludeAndroidResources = true } }
 }
 
 dependencies {
+    // যেসব ডিপেন্ডেন্সি আছে সেগুলো রাখা হয়েছে (আপনার লাইব্রেরি অনুসারে)
     implementation(platform(libs.androidx.compose.bom))
-    // অন্যান্য ডিপেন্ডেন্সি যেমন ছিল তেমনই রাখা হয়েছে (Media3, Room, Coil ইত্যাদি)
 }
