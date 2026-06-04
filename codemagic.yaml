@@ -5,12 +5,10 @@ workflows:
       java: 17
 
     scripts:
-      - name: Decode Debug Keystore
-        script: |
-          echo $DEBUG_KEYSTORE_BASE64 | base64 --decode > ${CM_BUILD_DIR}/debug.keystore
-
       - name: Make Gradle executable
-        script: chmod +x gradlew
+        script: |
+          chmod +x gradlew
+          ls -la gradlew
 
       - name: Clean
         script: ./gradlew clean
@@ -35,7 +33,7 @@ workflows:
     scripts:
       - name: Decode Release Keystore
         script: |
-          echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > ${CM_BUILD_DIR}/my-upload-key.jks
+          echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > my-upload-key.jks
 
       - name: Make Gradle executable
         script: chmod +x gradlew
