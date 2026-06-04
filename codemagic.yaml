@@ -1,18 +1,23 @@
 workflows:
   android-debug:
-    name: NovaPlay Ultra Debug
-
+    name: NovaPlay Ultra - Debug
     environment:
+      vars:
+        GEMINI_API_KEY: $GEMINI_API_KEY  # Codemagic-এ সিকিউর ভ্যারিয়েবল হিসেবে অ্যাড করো
       java: 17
+      groups:
+        - keystore  # release এর জন্য পরে ব্যবহার করবে
 
     scripts:
-      - name: Make Gradle executable
+      - name: Decode Debug Keystore
         script: |
-          chmod +x gradlew
+          echo $DEBUG_KEYSTORE_BASE64 | base64 --decode > ${CM_BUILD_DIR}/debug.keystore
 
-      - name: Clean project
-        script: |
-          ./gradlew clean
+      - name: Make Gradle executable
+        script: chmod +x gradlew
+
+      - name: Clean
+        script: ./gradlew clean
 
       - name: Build Debug APK
         script: |
@@ -20,3 +25,39 @@ workflows:
 
     artifacts:
       - app/build/outputs/**/*.apk
+
+  android-release:
+    name: NovaPlay Ultra - Release
+    environment:
+      vars:
+        GEMINI_API_KEY: $GEMINI_API_KEY
+        STORE_PASSWORD: $STORE_PASSWORD
+        KEY_PASSWORD: $KEY_PASSWORD
+        KEY_ALIAS: $KEY_ALIAS
+      java: 17
+      groups:
+        - keystore
+
+    scripts:
+      - name: Decode Release Keystore
+        script: |
+          echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > ${CM_BUILD_DIR}/my-upload-key.jks
+
+      - name: Make Gradle executable
+        script: chmod +x gradlew
+
+      - name: Clean
+        script: ./gradlew clean
+
+      - name: Build Release APK
+        script: |
+          ./gradlew assembleRelease --stacktrace
+
+    artifacts:
+      - app/build/outputs/**/*.apk
+
+    publishing:
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_KEY
+        track: internal
+        submit: false
