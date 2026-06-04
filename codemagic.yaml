@@ -5,8 +5,6 @@ workflows:
 
     environment:
       java: 17
-      android_signing:
-        - debug
       vars:
         GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
@@ -16,7 +14,7 @@ workflows:
         - ~/.gradle/wrapper
 
     scripts:
-      - name: Set permissions
+      - name: Grant permission
         script: |
           chmod +x gradlew
 
@@ -30,8 +28,3 @@ workflows:
 
     artifacts:
       - app/build/outputs/**/*.apk
-
-    publishing:
-      email:
-        recipients:
-          - rahman2008-svg@gmail.com
