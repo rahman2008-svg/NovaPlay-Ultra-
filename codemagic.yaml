@@ -1,0 +1,35 @@
+workflows:
+  android-debug-build:
+    name: Android Debug Build
+
+    environment:
+      java: 17
+
+    triggering:
+      events:
+        - push
+
+    scripts:
+      - name: Accept Android Licenses
+        script: |
+          yes | sdkmanager --licenses
+
+      - name: Make Gradle Executable
+        script: |
+          chmod +x gradlew
+
+      - name: Clean Project
+        script: |
+          ./gradlew clean
+
+      - name: Build Debug APK
+        script: |
+          ./gradlew assembleDebug --stacktrace
+
+    artifacts:
+      - app/build/outputs/**/*.apk
+
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
