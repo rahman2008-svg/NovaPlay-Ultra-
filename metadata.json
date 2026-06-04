@@ -1,0 +1,6 @@
+{
+  "name": "NovaPlay Ultra",
+  "description": "Offline video player with smooth gesture controls, resume playback, folder scanning, subtitle loading, and a gorgeous premium Netflix-style layout using Material 3 and Jetpack Compose.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
