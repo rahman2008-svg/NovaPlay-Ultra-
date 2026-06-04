@@ -1,48 +1,37 @@
 workflows:
-  nova-play-ultra-debug:
-    name: NovaPlay Ultra - Debug
+  android-build:
+    name: NovaPlay-Ultra Android Build
+    max_build_duration: 60
+
     environment:
       java: 17
+      android_signing:
+        - debug
+      vars:
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+        - ~/.gradle/wrapper
 
     scripts:
-      - name: Make Gradle executable
+      - name: Set permissions
         script: |
           chmod +x gradlew
-          ls -la gradlew
 
-      - name: Clean
-        script: ./gradlew clean
+      - name: Clean project
+        script: |
+          ./gradlew clean
 
       - name: Build Debug APK
-        script: ./gradlew assembleDebug --stacktrace
-
-    artifacts:
-      - app/build/outputs/**/*.apk
-
-  nova-play-ultra-release:
-    name: NovaPlay Ultra - Release
-    environment:
-      vars:
-        STORE_PASSWORD: $STORE_PASSWORD
-        KEY_PASSWORD: $KEY_PASSWORD
-        KEY_ALIAS: $KEY_ALIAS
-      java: 17
-      groups:
-        - keystore
-
-    scripts:
-      - name: Decode Release Keystore
         script: |
-          echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > my-upload-key.jks
-
-      - name: Make Gradle executable
-        script: chmod +x gradlew
-
-      - name: Clean
-        script: ./gradlew clean
-
-      - name: Build Release APK
-        script: ./gradlew assembleRelease --stacktrace
+          ./gradlew assembleDebug
 
     artifacts:
       - app/build/outputs/**/*.apk
+
+    publishing:
+      email:
+        recipients:
+          - rahman2008-svg@gmail.com
