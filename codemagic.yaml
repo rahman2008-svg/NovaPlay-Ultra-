@@ -1,24 +1,16 @@
 workflows:
-  android-debug-build:
-    name: Android Debug Build
+  android-debug:
+    name: NovaPlay Ultra Debug
 
     environment:
       java: 17
 
-    triggering:
-      events:
-        - push
-
     scripts:
-      - name: Accept Android Licenses
-        script: |
-          yes | sdkmanager --licenses
-
-      - name: Make Gradle Executable
+      - name: Make Gradle executable
         script: |
           chmod +x gradlew
 
-      - name: Clean Project
+      - name: Clean project
         script: |
           ./gradlew clean
 
@@ -28,8 +20,3 @@ workflows:
 
     artifacts:
       - app/build/outputs/**/*.apk
-
-    publishing:
-      email:
-        recipients:
-          - your-email@example.com
