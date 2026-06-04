@@ -1,10 +1,11 @@
 workflows:
   android-build:
-    name: NovaPlay-Ultra Android Build
+    name: NovaPlay-Ultra CI Build
     max_build_duration: 60
 
     environment:
       java: 17
+
       vars:
         GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
@@ -14,9 +15,13 @@ workflows:
         - ~/.gradle/wrapper
 
     scripts:
-      - name: Grant permission
+      - name: Grant permissions
         script: |
           chmod +x gradlew
+
+      - name: Verify Gradle
+        script: |
+          ./gradlew --version
 
       - name: Clean project
         script: |
@@ -24,7 +29,12 @@ workflows:
 
       - name: Build Debug APK
         script: |
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
     artifacts:
       - app/build/outputs/**/*.apk
+
+    publishing:
+      email:
+        recipients:
+          - rahman2008-svg@gmail.com
