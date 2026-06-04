@@ -1,21 +1,18 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# NovaPlay Ultra
 
-# Run and deploy your AI Studio app
+**সম্পূর্ণ অফলাইন লোকাল মিউজিক প্লেয়ার** অ্যান্ড্রয়েড অ্যাপ।
 
-This contains everything you need to run your app locally.
+### ফিচারস
+- ডিভাইস থেকে সব মিউজিক স্ক্যান করা
+- প্লে, পজ, নেক্সট, প্রিভিয়াস
+- অ্যালবাম, আর্টিস্ট, ফোল্ডার ভিউ
+- ব্যাকগ্রাউন্ড প্লেব্যাক + নোটিফিকেশন
+- Jetpack Compose UI
 
-View your app in AI Studio: https://ai.studio/apps/e3e2eced-05d4-4450-94d1-0f12499def08
+### কীভাবে রান করবেন
 
-## Run Locally
+1. প্রজেক্টটি Android Studio-এ ওপেন করুন
+2. Gradle Sync করুন
+3. ডিভাইস বা এমুলেটরে রান করুন
 
-**Prerequisites:**  [Android Studio](https://developer.android.com/studio)
-
-
-1. Open Android Studio
-2. Select **Open** and choose the directory containing this project
-3. Allow Android Studio to fix any incompatibilities as it imports the project.
-4. Create a file named `.env` in the project directory and set `GEMINI_API_KEY` in that file to your Gemini API key (see `.env.example` for an example)
-5. Remove this line from the app's `build.gradle.kts` file: `signingConfig = signingConfigs.getByName("debugConfig")`
-6. Run the app on an emulator or physical device
+**নোট:** এই অ্যাপে কোনো ইন্টারনেট বা API কী লাগবে না।
